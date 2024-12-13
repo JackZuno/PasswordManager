@@ -337,54 +337,20 @@ pub async fn update_password_db(
 }
 
 
-// ############### DELETE DOCUMENTS ###############
-pub async fn _delete_all_documents(
+// ############### DELETE DOCUMENT BY ID ###############
+pub async fn delete_item_by_id(
     db: &FirestoreDb,
-    collection_name: &str,
+    document_id: &str,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    // Retrieve all document IDs in the collection
-    let object_stream = db
-        .fluent()
-        .select()
+    let collection_name = "items";
+
+    // Delete documents
+    db.fluent()
+        .delete()
         .from(collection_name)
-        .stream_query()
+        .document_id(document_id)
+        .execute()
         .await?;
 
-    // Iterate through the stream of documents
-    let mut document_ids = Vec::new();
-    object_stream
-        .for_each(|doc: FirestoreDocument| {
-            document_ids.push(doc.name);
-            futures::future::ready(())
-        })
-        .await;
-
-    // Delete each document by its ID
-    for document_id in document_ids {
-        db.fluent()
-            .delete()
-            .from(collection_name)
-            .document_id(&document_id)
-            .execute()
-            .await?;
-        println!("Deleted document: {}", document_id);
-    }
-
-    println!("All documents in collection '{}' have been deleted.", collection_name);
     Ok(())
 }
-
-
-// pub async fn delete_items(
-//     db: &FirestoreDb,
-// ) {
-//     let collection_name = "items";
-
-//     // Delete documents
-//     db.fluent()
-//         .delete()
-//         .from(collection_name)
-//         // .document_id(&my_struct.some_id)
-//         .execute()
-//         .await?;
-// }
