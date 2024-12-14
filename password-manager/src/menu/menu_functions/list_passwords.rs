@@ -1,7 +1,8 @@
 use firestore::FirestoreDb;
-use prettytable::{Cell, Row, Table};
+use prettytable::{Cell, Row, Table, Attr, color};
 
 use crate::database::items::{get_items, ItemList};
+
 
 pub async fn list_items_menu(
     db: &FirestoreDb,
@@ -13,19 +14,53 @@ pub async fn list_items_menu(
     let mut table = Table::new();
     
     table.add_row(Row::new(vec![
-        Cell::new("Account Name"),
-        Cell::new("User"),
-        Cell::new("Creation Date"),
-        Cell::new("Last Modified Date"),
+        Cell::new("Account Name")
+            .with_style(Attr::Bold)
+            .with_style(Attr::ForegroundColor(color::RED)),
+        Cell::new("User")
+            .with_style(Attr::Bold)
+            .with_style(Attr::ForegroundColor(color::GREEN)),
+        Cell::new("Creation Date")
+            .with_style(Attr::Bold)
+            .with_style(Attr::ForegroundColor(color::YELLOW)),
+        Cell::new("Last Modified Date")
+            .with_style(Attr::Bold)
+            .with_style(Attr::ForegroundColor(color::MAGENTA)),
     ]));
 
-    for item in &all_items {
-        table.add_row(Row::new(vec![
-            Cell::new(&item.account_name),
-            Cell::new(&item.user),
-            Cell::new(&item.creation_date),
-            Cell::new(&item.last_modified_date),
-        ]));
+    for (index, item) in all_items.iter().enumerate() {
+        if index %2 == 0 {
+            table.add_row(Row::new(vec![
+                Cell::new(&item.account_name)
+                    .with_style(Attr::BackgroundColor(color::BLACK))
+                    .with_style(Attr::ForegroundColor(color::WHITE)),
+                Cell::new(&item.user)
+                    .with_style(Attr::BackgroundColor(color::BLACK))
+                    .with_style(Attr::ForegroundColor(color::WHITE)),
+                Cell::new(&item.creation_date)
+                    .with_style(Attr::BackgroundColor(color::BLACK))
+                    .with_style(Attr::ForegroundColor(color::WHITE)),
+                Cell::new(&item.last_modified_date)
+                    .with_style(Attr::BackgroundColor(color::BLACK))
+                    .with_style(Attr::ForegroundColor(color::WHITE)),
+            ]));
+        } else {
+            table.add_row(Row::new(vec![
+                Cell::new(&item.account_name)
+                    .with_style(Attr::BackgroundColor(color::WHITE))
+                    .with_style(Attr::ForegroundColor(color::BLACK)),
+                Cell::new(&item.user)
+                    .with_style(Attr::BackgroundColor(color::WHITE))
+                    .with_style(Attr::ForegroundColor(color::BLACK)),
+                Cell::new(&item.creation_date)
+                    .with_style(Attr::BackgroundColor(color::WHITE))
+                    .with_style(Attr::ForegroundColor(color::BLACK)),
+                Cell::new(&item.last_modified_date)
+                    .with_style(Attr::BackgroundColor(color::WHITE))
+                    .with_style(Attr::ForegroundColor(color::BLACK)),
+            ]));
+        }
+            
     }
 
     print!("\n");

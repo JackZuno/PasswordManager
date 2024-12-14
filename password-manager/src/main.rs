@@ -3,8 +3,6 @@ use dotenv::dotenv;
 use menu::menu_layout::menu_function;
 use std::env;
 
-// use database::users::User;
-
 
 mod menu {
     mod menu_functions {
@@ -12,6 +10,7 @@ mod menu {
         pub mod update_password;
         pub mod add_new_password;
         pub mod remove_password;
+        pub mod retrieve_password;
     }
     pub mod menu_layout;
 }
@@ -19,6 +18,10 @@ mod menu {
 mod database {
     pub mod items;
     pub mod users;
+}
+
+mod password_functions {
+    pub mod password_manager;
 }
 
 
@@ -31,6 +34,7 @@ fn get_env_variable(variable_name: &str) -> String {
         }
     }
 }
+
 
 
 #[tokio::main]

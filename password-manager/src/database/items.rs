@@ -12,6 +12,8 @@ pub struct ItemNoId {
     pub user: String,
     pub creation_date: String,
     pub last_modified_date: String,
+    pub salt: String,
+    pub nonce: String,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -22,6 +24,8 @@ pub struct ItemList {
     pub creation_date: String,
     pub last_modified_date: String,
     pub document_id: String,
+    pub salt: String,
+    pub nonce: String,
 }
 
 
@@ -30,7 +34,6 @@ pub async fn insert_item(
     db: &FirestoreDb,
     item: &ItemNoId,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-
     match retrieve_item_by_account_and_user(db, &item.account_name, &item.user).await? {
         Some(_existing_item) => {
             println!("Item with account_name '{}' and user '{}' already exists", item.account_name, item.user);
@@ -51,6 +54,7 @@ pub async fn insert_item(
             {
                 Ok(_) => {
                     println!("\nItem inserted successfully!");
+
                     Ok(())
                 }
                 Err(err) => {
@@ -175,6 +179,22 @@ pub async fn retrieve_item_by_account_and_user_with_id(
                         })
                         .unwrap_or_default();
 
+                    let salt = fields
+                        .get("salt")
+                        .and_then(|v| match &v.value_type {
+                            Some(ValueType::StringValue(s)) => Some(s.clone()),
+                            _ => None,
+                        })
+                        .unwrap_or_default();
+
+                    let nonce = fields
+                        .get("nonce")
+                        .and_then(|v| match &v.value_type {
+                            Some(ValueType::StringValue(s)) => Some(s.clone()),
+                            _ => None,
+                        })
+                        .unwrap_or_default();
+
                     // Create the ItemList object with document_id
                     let item = ItemList {
                         account_name,
@@ -183,6 +203,8 @@ pub async fn retrieve_item_by_account_and_user_with_id(
                         creation_date,
                         last_modified_date,
                         document_id,
+                        salt,
+                        nonce,
                     };
 
                     items.push(item);
@@ -284,6 +306,22 @@ pub async fn get_items(
                         })
                         .unwrap_or_default();
 
+                    let salt = fields
+                        .get("salt")
+                        .and_then(|v| match &v.value_type {
+                            Some(ValueType::StringValue(s)) => Some(s.clone()),
+                            _ => None,
+                        })
+                        .unwrap_or_default();
+
+                    let nonce = fields
+                        .get("nonce")
+                        .and_then(|v| match &v.value_type {
+                            Some(ValueType::StringValue(s)) => Some(s.clone()),
+                            _ => None,
+                        })
+                        .unwrap_or_default();
+
                     // Create the ItemList object
                     let item = ItemList {
                         account_name,
@@ -292,6 +330,8 @@ pub async fn get_items(
                         creation_date,
                         last_modified_date,
                         document_id,
+                        salt, 
+                        nonce,
                     };
 
                     items.push(item);
@@ -318,7 +358,7 @@ pub async fn update_password_db(
     match db
         .fluent()
         .update()
-        .fields(paths!(ItemNoId::{password, last_modified_date}))
+        .fields(paths!(ItemNoId::{password, last_modified_date, salt, nonce}))
         .in_col(&collection_name)
         .document_id(item.document_id.clone())
         .object(item)
