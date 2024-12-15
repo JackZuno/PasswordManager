@@ -1,6 +1,7 @@
 use firestore::*;
 use dotenv::dotenv;
-use menu::menu_layout::menu_function;
+// use menu::menu_layout::menu_function;
+use user_auth::menu_auth::menu_authentication;
 use std::env;
 
 
@@ -22,6 +23,15 @@ mod database {
 
 mod password_functions {
     pub mod password_manager;
+}
+
+mod user_auth {
+    pub mod menu_auth;
+    pub mod help;
+    mod login_functions_folder {
+        pub mod login_function;
+        pub mod listener;
+    }
 }
 
 
@@ -51,7 +61,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     // Create an instance
     let db = FirestoreDb::new(&project_id).await?;
 
-    let _menu = menu_function(&db).await?;
+    let _menu_auth = menu_authentication(&db).await?;
+
+    // let _menu = menu_function(&db).await?;
 
     Ok(())
 }

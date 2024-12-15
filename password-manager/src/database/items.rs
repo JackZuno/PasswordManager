@@ -53,7 +53,7 @@ pub async fn insert_item(
                 .await
             {
                 Ok(_) => {
-                    println!("\nItem inserted successfully!");
+                    println!("Item inserted successfully!\n");
 
                     Ok(())
                 }
@@ -366,7 +366,7 @@ pub async fn update_password_db(
         .await
     {
         Ok(_) => {
-            println!("Password updated successfully for service: {}", item.account_name);
+            println!("Password updated successfully for the account: {}.\n", item.account_name);
             Ok(())
         }
         Err(err) => {
