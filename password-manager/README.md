@@ -17,5 +17,4 @@ cargo run
 Google cloud platform
 
 ### TODO
-- Authentication method for the users (login with an email and password)
-- Improve the UX
+- Create the readme
