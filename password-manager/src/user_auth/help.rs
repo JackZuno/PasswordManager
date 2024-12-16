@@ -21,7 +21,7 @@ pub fn help_function() {
     println!(
         "\t{} {}",
         "[2]".yellow().bold(),
-        "Store, retrieve, and manage your passwords effortlessly.".bright_white()
+        "Store, retrieve, manage, evaluate and generate your passwords effortlessly.".bright_white()
     );
     println!(
         "\t{} {}",
@@ -36,7 +36,7 @@ pub fn help_function() {
     );
     println!();
     println!(
-        "{} {}\n\t{} {}\n\t{} {}\n\t{} {}\n\t{} {}",
+        "{} {}\n\t{} {}\n\t{} {}\n\t{} {}\n\t{} {}\n\t{} {}",
         "[✔]".bright_green(),
         "List all your saved accounts.".bold(),
         "[✔]".bright_green(),
@@ -46,7 +46,9 @@ pub fn help_function() {
         "[✔]".bright_green(),
         "Update existing account details.".bold(),
         "[✔]".bright_green(),
-        "Remove accounts you no longer need.".bold()
+        "Remove accounts you no longer need.".bold(),
+        "[✔]".bright_green(),
+        "Generate and evalute a secure password.".bold()
     );
     println!();
     println!(

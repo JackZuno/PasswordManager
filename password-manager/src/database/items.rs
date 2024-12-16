@@ -7,7 +7,8 @@ use gcloud_sdk::google::firestore::v1::value::ValueType;
 // ############### STRUCTURES ###############
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ItemNoId {
-    pub account_name: String,
+    pub website: String,
+    pub username: String,
     pub password: String,
     pub user: String,
     pub creation_date: String,
@@ -18,7 +19,8 @@ pub struct ItemNoId {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ItemList {
-    pub account_name: String,
+    pub website: String,
+    pub username: String,
     pub password: String,
     pub user: String,
     pub creation_date: String,
@@ -34,10 +36,10 @@ pub async fn insert_item(
     db: &FirestoreDb,
     item: &ItemNoId,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    match retrieve_item_by_account_and_user(db, &item.account_name, &item.user).await? {
+    match retrieve_item_by_account_and_user(db, &item.website, &item.user).await? {
         Some(_existing_item) => {
-            println!("Item with account_name '{}' and user '{}' already exists", item.account_name, item.user);
-            return Ok(()); // Item already exists, so we stop the insertion
+            println!("Item with website name '{}' and user '{}' already exists", item.website, item.user);
+            return Ok(()); 
         },
         None => {
             // Proceed with inserting the item if it does not exist
@@ -53,13 +55,13 @@ pub async fn insert_item(
                 .await
             {
                 Ok(_) => {
-                    println!("Item inserted successfully!\n");
+                    println!("Website inserted successfully!\n");
 
                     Ok(())
                 }
                 Err(err) => {
                     // Handle any errors that may occur
-                    Err(Box::new(err)) // Propagate the error
+                    Err(Box::new(err)) 
                 }
             }
         }
@@ -70,7 +72,7 @@ pub async fn insert_item(
 // ############### RETRIEVE ITEM BY ACCOUNT NAME AND USER ###############
 pub async fn retrieve_item_by_account_and_user(
     db: &FirestoreDb,
-    account_name: &str,
+    website: &str,
     user: &str,
 ) -> Result<Option<ItemNoId>, Box<dyn std::error::Error + Send + Sync>> {
     let collection_name = "items";
@@ -81,7 +83,7 @@ pub async fn retrieve_item_by_account_and_user(
         .from(collection_name)
         .filter( | q| { // Fluent filter API example
             q.for_all([
-                q.field(path!(ItemNoId::account_name)).eq(account_name),
+                q.field(path!(ItemNoId::website)).eq(website),
                 q.field(path!(ItemNoId::user)).eq(user),       
             ])
         })
@@ -91,11 +93,10 @@ pub async fn retrieve_item_by_account_and_user(
 
     let as_vec: Vec<ItemNoId> = query.try_collect().await?;
 
-    // Check if we got a result
     if !as_vec.is_empty() {
-        Ok(Some(as_vec[0].clone())) // Return the existing item
+        Ok(Some(as_vec[0].clone())) 
     } else {
-        Ok(None) // No item found
+        Ok(None) 
     }
 }
 
@@ -103,7 +104,7 @@ pub async fn retrieve_item_by_account_and_user(
 // ############### RETRIEVE ITEM BY ACCOUNT NAME AND USER WITH DOC ID ###############
 pub async fn retrieve_item_by_account_and_user_with_id(
     db: &FirestoreDb,
-    account_name: &str,
+    website: &str,
     user: &str,
 ) -> Result<Option<ItemList>, Box<dyn std::error::Error + Send + Sync>> {
     let collection_name = "items";
@@ -114,7 +115,7 @@ pub async fn retrieve_item_by_account_and_user_with_id(
         .from(collection_name)
         .filter(|q| {
             q.for_all([
-                q.field(path!(ItemList::account_name)).eq(account_name),
+                q.field(path!(ItemList::website)).eq(website),
                 q.field(path!(ItemList::user)).eq(user),
             ])
         })
@@ -139,8 +140,16 @@ pub async fn retrieve_item_by_account_and_user_with_id(
                     // Extract fields from the document
                     let fields = document.fields;
 
-                    let account_name = fields
-                        .get("account_name")
+                    let website = fields
+                        .get("website")
+                        .and_then(|v| match &v.value_type {
+                            Some(ValueType::StringValue(s)) => Some(s.clone()),
+                            _ => None,
+                        })
+                        .unwrap_or_default();
+
+                    let username = fields
+                        .get("username")
                         .and_then(|v| match &v.value_type {
                             Some(ValueType::StringValue(s)) => Some(s.clone()),
                             _ => None,
@@ -197,7 +206,8 @@ pub async fn retrieve_item_by_account_and_user_with_id(
 
                     // Create the ItemList object with document_id
                     let item = ItemList {
-                        account_name,
+                        website,
+                        username,
                         password,
                         user,
                         creation_date,
@@ -239,7 +249,7 @@ pub async fn get_items(
         .fluent()
         .select()
         .from(collection_name)
-        .filter( | q| { // Fluent filter API example
+        .filter( | q| { 
             q.for_all([
                 q.field(path!(ItemList::user)).eq(user),
             ])
@@ -266,8 +276,16 @@ pub async fn get_items(
                     let fields = document.fields;
 
                     // Safely extract field values using pattern matching
-                    let account_name = fields
-                        .get("account_name")
+                    let website = fields
+                        .get("website")
+                        .and_then(|v| match &v.value_type {
+                            Some(ValueType::StringValue(s)) => Some(s.clone()),
+                            _ => None,
+                        })
+                        .unwrap_or_default();
+
+                    let username = fields
+                        .get("username")
                         .and_then(|v| match &v.value_type {
                             Some(ValueType::StringValue(s)) => Some(s.clone()),
                             _ => None,
@@ -324,7 +342,8 @@ pub async fn get_items(
 
                     // Create the ItemList object
                     let item = ItemList {
-                        account_name,
+                        website,
+                        username,
                         password,
                         user,
                         creation_date,
@@ -366,7 +385,7 @@ pub async fn update_password_db(
         .await
     {
         Ok(_) => {
-            println!("Password updated successfully for the account: {}.\n", item.account_name);
+            println!("Password updated successfully for the website: {}.\n", item.website);
             Ok(())
         }
         Err(err) => {

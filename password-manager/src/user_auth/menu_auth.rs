@@ -41,8 +41,8 @@ pub async fn menu_authentication(
                 match login_with_google(rx).await {
                     Ok(Some(user_info)) => {
                         println!("\nUser Details:");
-                        println!("Name: {}", user_info.name);
-                        println!("Email: {}", user_info.email);
+                        println!("\tName: {}", user_info.name);
+                        println!("\tEmail: {}", user_info.email);
 
                         let user = User {
                             username: user_info.name,

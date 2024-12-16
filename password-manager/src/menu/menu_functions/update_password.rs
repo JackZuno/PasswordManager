@@ -3,23 +3,23 @@ use base64::{prelude::BASE64_STANDARD, Engine};
 use chrono::Local;
 use firestore::FirestoreDb;
 
-use crate::{database::items::{retrieve_item_by_account_and_user_with_id, update_password_db}, password_functions::password_manager::{derive_master_key, encrypt_password, generate_salt, generate_unique_nonce}};
+use crate::{database::items::{retrieve_item_by_account_and_user_with_id, update_password_db}, menu::menu_functions::generate_password::{calculate_entropy, evaluate_password_strength}, password_functions::password_manager::{derive_master_key, encrypt_password, generate_salt, generate_unique_nonce}};
 
 pub async fn update_password_function(
     db: &FirestoreDb,
     user: &str,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    // Ask the user for the account name
-    print!("Enter the account name: ");
+    // Ask the user for the website name
+    print!("Enter the website name: ");
     io::stdout().flush().unwrap(); 
 
-    let mut account_name = String::new();
-    io::stdin().read_line(&mut account_name).map_err(|_| "Invalid input")?;
-    let account_name = account_name.trim(); 
+    let mut website = String::new();
+    io::stdin().read_line(&mut website).map_err(|_| "Invalid input")?;
+    let website = website.trim(); 
 
-    // Validate account name length
-    if account_name.len() < 3 || account_name.len() > 24 {
-        println!("Error: Account name must be at least 3 characters long and max 24.\n");
+    // Validate website name length
+    if website.len() < 3 || website.len() > 24 {
+        println!("Error: website name must be at least 3 characters long and max 24.\n");
         return Ok(());
     }
 
@@ -32,7 +32,7 @@ pub async fn update_password_function(
     }
 
     // Check if the account exists
-    match retrieve_item_by_account_and_user_with_id(db, account_name, user).await? {
+    match retrieve_item_by_account_and_user_with_id(db, website, user).await? {
         Some(mut item) => {
             // Account exists, prompt for new password
             print!("Enter the new password: ");
@@ -40,12 +40,17 @@ pub async fn update_password_function(
 
             let mut new_password = String::new();
             io::stdin().read_line(&mut new_password).map_err(|_| "Invalid input")?;
-            let new_password = new_password.trim();
+            let new_password = new_password.trim().replace(" ", "");
 
-            if new_password.len() < 6 || new_password.len() > 128 {
-                println!("Error: Invalid length for the Account Password (min 6 and max 128 characters).\n");
+            if new_password.len() < 8 || new_password.len() > 128 {
+                println!("Error: Invalid length for the website Password (min 8 and max 128 characters).\n");
                 return Ok(());
             }
+
+            let entropy = calculate_entropy(&new_password);
+            println!("Password entropy: {:.4} bits", entropy);
+
+            evaluate_password_strength(entropy);
 
             // Update the password and last modified date
             let now = Local::now();
@@ -55,7 +60,7 @@ pub async fn update_password_function(
             let salt = generate_salt();
             let master_key = derive_master_key(&master_password, &salt)?;
 
-            let encryption_result = encrypt_password(new_password, &master_key, &nonce, &salt);
+            let encryption_result = encrypt_password(&new_password, &master_key, &nonce, &salt);
 
             match encryption_result {
                 Ok(encrypted_password) => {
@@ -80,7 +85,7 @@ pub async fn update_password_function(
         }
         None => {
             // Account doesn't exist, print a message and return
-            println!("No account found with name: {}\n", account_name);
+            println!("No website found with name: {}\n", website);
             Ok(())
         }
     }

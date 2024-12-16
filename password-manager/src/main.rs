@@ -12,6 +12,7 @@ mod menu {
         pub mod add_new_password;
         pub mod remove_password;
         pub mod retrieve_password;
+        pub mod generate_password;
     }
     pub mod menu_layout;
 }

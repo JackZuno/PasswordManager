@@ -14,10 +14,10 @@ pub async fn list_items_menu(
     let mut table = Table::new();
     
     table.add_row(Row::new(vec![
-        Cell::new("Account Name")
+        Cell::new("Website")
             .with_style(Attr::Bold)
             .with_style(Attr::ForegroundColor(color::RED)),
-        Cell::new("User")
+        Cell::new("Username")
             .with_style(Attr::Bold)
             .with_style(Attr::ForegroundColor(color::GREEN)),
         Cell::new("Creation Date")
@@ -31,10 +31,10 @@ pub async fn list_items_menu(
     for (index, item) in all_items.iter().enumerate() {
         if index %2 == 0 {
             table.add_row(Row::new(vec![
-                Cell::new(&item.account_name)
+                Cell::new(&item.website)
                     .with_style(Attr::BackgroundColor(color::BLACK))
                     .with_style(Attr::ForegroundColor(color::WHITE)),
-                Cell::new(&item.user)
+                Cell::new(&item.username)
                     .with_style(Attr::BackgroundColor(color::BLACK))
                     .with_style(Attr::ForegroundColor(color::WHITE)),
                 Cell::new(&item.creation_date)
@@ -46,10 +46,10 @@ pub async fn list_items_menu(
             ]));
         } else {
             table.add_row(Row::new(vec![
-                Cell::new(&item.account_name)
+                Cell::new(&item.website)
                     .with_style(Attr::BackgroundColor(color::WHITE))
                     .with_style(Attr::ForegroundColor(color::BLACK)),
-                Cell::new(&item.user)
+                Cell::new(&item.username)
                     .with_style(Attr::BackgroundColor(color::WHITE))
                     .with_style(Attr::ForegroundColor(color::BLACK)),
                 Cell::new(&item.creation_date)

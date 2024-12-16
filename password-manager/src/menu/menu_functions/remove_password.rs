@@ -8,24 +8,24 @@ pub async fn remove_password_function(
     user: &str,
 ) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     // Ask the user for the account name
-    print!("Enter the account name: ");
+    print!("Enter the website name: ");
     io::stdout().flush().unwrap(); 
 
-    let mut account_name = String::new();
-    io::stdin().read_line(&mut account_name).map_err(|_| "Invalid input\n")?;
-    let account_name = account_name.trim(); 
+    let mut website = String::new();
+    io::stdin().read_line(&mut website).map_err(|_| "Invalid input\n")?;
+    let website = website.trim(); 
 
-    // Validate account name length
-    if account_name.len() < 3 || account_name.len() > 24 {
-        println!("Error: Account name must be at least 3 characters long and max 24.\n");
+    // Validate website name length
+    if website.len() < 3 || website.len() > 24 {
+        println!("Error: website name must be at least 3 characters long and max 24.\n");
         return Ok(());
     }
 
-    // Check if the account exists
-    match retrieve_item_by_account_and_user_with_id(db, account_name, user).await? {
+    // Check if the website exists
+    match retrieve_item_by_account_and_user_with_id(db, website, user).await? {
         Some(item) => {
-            // Account exists, prompt for new password
-            println!("Are you sure you want to remove the account '{}'?", account_name);
+            // website exists, prompt for new password
+            println!("Are you sure you want to remove the website '{}'?", website);
             println!("Type 'Y' for Yes or 'N' for No");
 
             let mut confirmation = String::new();
@@ -33,14 +33,14 @@ pub async fn remove_password_function(
             let confirmation = confirmation.trim().to_uppercase();
 
             if confirmation == "Y" {
-                // Proceed to remove the account
+                // Proceed to remove the website
                 let document_id = item.document_id;
 
                 delete_item_by_id(&db, &document_id).await?;
 
-                println!("The account '{}' has been removed.\n", account_name);
+                println!("The website '{}' has been removed.\n", website);
             } else if confirmation == "N" {
-                println!("Operation cancelled. The account '{}' was not removed.\n", account_name);
+                println!("Operation cancelled. The account '{}' was not removed.\n", website);
             } else {
                 println!("Invalid input. Operation cancelled.\n");
             }
@@ -48,7 +48,7 @@ pub async fn remove_password_function(
             Ok(())
         }
         None => {
-            println!("No account found with name: {}\n", account_name);
+            println!("No account found with name: {}\n", website);
             Ok(()) 
         }
     }
