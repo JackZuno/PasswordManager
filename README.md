@@ -1,6 +1,7 @@
 # Password Manager in Rust
 
-A **secure and efficient password manager** built with Rust, leveraging **Google Firestore** as the database. This program allows users to safely store, manage, evaluate, and generate passwords, offering a simple and user-friendly interface.
+A **secure and efficient password manager** built with Rust, leveraging **Google Firestore** as the database. This program allows users to safely store, manage, evaluate, and generate passwords, offering a simple and user-friendly interface.\
+For more details on how this password manager was created read [here](/password-manager/README.md).
 
 ---
 
