@@ -90,14 +90,6 @@ This section provides a detailed walkthrough of the program’s functionality, c
 ### 1. **Start the Program**
 When you start the program, you’ll see the **main authentication menu** with options to log in, get help, or exit the program.
 
-<center>
-    <img src="/password-manager/images/menu_1.png" alt="Placeholder for main menu image" width="50%">
-</center>
-
-<div style="text-align: center;">
-    <img src="/password-manager/images/menu_1.png" alt="Placeholder for main menu image" width="50%">
-</div>
-
 <p align="center">
     <img src="/password-manager/images/menu_1.png" alt="Placeholder for main menu image" width="50%">
 </p>
@@ -107,27 +99,27 @@ When you start the program, you’ll see the **main authentication menu** with o
 ### 2. **Log in with Google OAuth2**
 To log in, select **Option [1]**: Log in with Google. You’ll be given a URL to open in your browser for authentication. After authorizing the app, you’ll return to the program.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/user_auth.png" alt="Placeholder for Google login step image" width="100%">
-</div>
+</p>
 
 ---
 
 ### 3. **Access the Main Menu**
 Once logged in, you’ll enter the **main menu**, where you can manage your saved passwords, generate new ones, or log out.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/main_menu.png" alt="Placeholder for main menu after login image" width="80%">
-</div>
+</p>
 
 ---
 
 ### 4. **List Saved Passwords**
 To view your stored credentials, select **Option [1]** from the main menu. You’ll see a table listing all saved accounts and associated details.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/list_passwords.png" alt="Placeholder for listing passwords image" width="80%">
-</div>
+</p>
 
 ---
 
@@ -137,9 +129,9 @@ Select **Option [2]** to add a new account and password. Follow the prompts to i
 
 - **Password Strength Feedback**: After entering the new password, the program will calculate its entropy and provide feedback on whether it is **very weak**, **weak**, **strong**, or **very strong**.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/add_new_account.png" alt="Placeholder for adding a new password image" width="70%">
-</div>
+</p>
 
 ---
 
@@ -147,9 +139,9 @@ Select **Option [2]** to add a new account and password. Follow the prompts to i
 To retrieve a password, choose **Option [3]**. Enter the name of the account, and the program will display the stored credentials.
 - **Master Password Requirement**: Before the password is decrypted and displayed, you’ll need to provide your **master password** to ensure security.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/retrieve_password.png" alt="Placeholder for retrieving a password image" width="80%">
-</div>
+</p>
 
 ---
 
@@ -159,54 +151,54 @@ To add an additional security layer, it is possible to verify if the user knows 
 - **Master Password Requirement**: You’ll need to enter the **master password** to decrypt the existing password and securely replace it with the new one.
 - **Password Strength Feedback**: The program will re-evaluate the strength of the new password to ensure it meets security standards.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/update_password.png" alt="Placeholder for updating a password image" width="70%">
-</div>
+</p>
 
 ---
 
 ### 8. **Remove a Password**
 To delete a password, select **Option [5]**. You’ll be prompted to confirm the removal of the account and its associated credentials. To add an additional security layer, it is possible to verify if the user knows the password before delete it by asking him to insert the *master password* and the *password*.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/remove_password.png" alt="Placeholder for removing a password image" width="70%">
-</div>
+</p>
 
 ---
 
 ### 9. **Generate a Secure Password**
 Select **Option [6]** to generate a random, secure password. The generated password will automatically be displayed, ensuring high entropy and security.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/password_generator.png" alt="Placeholder for generating a password image" width="60%">
-</div>
+</p>
 
 ---
 
 ### 10. **Log Out**
 When you’re done managing your passwords, select **Option [7]** to log out and return to the authentication menu.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/logout.png" alt="Placeholder for logging out image" width="40%">
-</div>
+</p>
 
 ---
 
 ### 11. **Help**
 When you’re back in the starting menu, select **Option [2]** to get more info about the program.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/help.png" alt="Placeholder for help image" width="80%">
-</div>
+</p>
 
 ---
 
 ### 12. **Exit**
 When you’re done managing your passwords and back in the starting menu, select **Option [3]** to close the password manager.
 
-<div style="text-align: center;">
+<p align="center">
     <img src="/password-manager/images/exit.png" alt="Placeholder for exit image" width="40%">
-</div>
+</p>
 
 ---
 
