@@ -1,7 +1,3 @@
-// Include the rand crate in your Cargo.toml:
-// [dependencies]
-// rand = "0.8"
-
 use rand::{thread_rng, Rng};
 use rand::distributions::Alphanumeric;
 use std::io;

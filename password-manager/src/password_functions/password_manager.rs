@@ -7,7 +7,7 @@ use std::num::NonZeroU32;
 use rand::{rngs::OsRng, RngCore};
 
 
-const PBKDF2_ITERATIONS: Option<NonZeroU32> = NonZeroU32::new(100_000);
+const PBKDF2_ITERATIONS: Option<NonZeroU32> = NonZeroU32::new(600_000);
 
 
 // ############### GENERATE SALT ###############
