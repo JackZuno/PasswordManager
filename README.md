@@ -90,7 +90,11 @@ This section provides a detailed walkthrough of the program’s functionality, c
 ### 1. **Start the Program**
 When you start the program, you’ll see the **main authentication menu** with options to log in, get help, or exit the program.
 
-<div style="display: flex; justify-content: center;">
+<center>
+    <img src="/password-manager/images/menu_1.png" alt="Placeholder for main menu image" width="50%">
+</center>
+
+<div style="text-align: center;">
     <img src="/password-manager/images/menu_1.png" alt="Placeholder for main menu image" width="50%">
 </div>
 
