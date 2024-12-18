@@ -33,9 +33,10 @@ After iterating through the characters in the password, the function calculates 
 - If there are special characters, it adds 32
 
 The **entropy** is calculated using the formula:
-$$
+<script type="math/tex"> 
 \text{Entropy} = \text{password length} \times \log_2(\text{pool size})
-$$
+</script>
+\
 The **pool_size** is converted to a logarithmic scale using log2(), which calculates how many bits are needed to represent each character in the pool. The result is then multiplied by the length of the password to get the total entropy.\
 Then the **password strenght** is categorized based on the given entropy:
 - Very Weak if entropy is less than 36.0.
