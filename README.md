@@ -98,6 +98,10 @@ When you start the program, you’ll see the **main authentication menu** with o
     <img src="/password-manager/images/menu_1.png" alt="Placeholder for main menu image" width="50%">
 </div>
 
+<p align="center">
+    <img src="/password-manager/images/menu_1.png" alt="Placeholder for main menu image" width="50%">
+</p>
+
 ---
 
 ### 2. **Log in with Google OAuth2**
