@@ -1449,7 +1449,6 @@ dependencies = [
  "ring",
  "rpassword",
  "serde",
- "serde_json",
  "tokio",
 ]
 
