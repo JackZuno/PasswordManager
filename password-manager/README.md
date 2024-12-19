@@ -59,6 +59,25 @@ The info showed are the name of the website, the username used inside the websit
 Other info:
 1. **Inputs**: user.
 
+
+### User Authentication
+The application provides user authentication through **Google OAuth 2.0**, ensuring secure and easy login.  
+Steps in the authentication process:
+1. **Login via Google**:
+   - Users are redirected to a Google login page to grant permission for the app to access their basic profile information.
+   - Scopes requested include `openid`, `email`, and `profile` for secure user identification.
+2. **Callback Listener**:
+   - After successful login, an authorization code is sent to the app via a listener running locally.
+3. **Token Exchange and User Info Retrieval**:
+   - The app exchanges the authorization code for an access token.
+   - The token is used to retrieve user details (name and email) from Google’s API.
+4. **User Management**:
+   - After authentication, the user details are stored in the database (Firestore).
+   - If the user already exists, the app fetches their stored passwords; otherwise, a new user is created in the database.
+5. **Security**:
+   - OAuth 2.0 ensures secure token exchange and minimizes the risk of password exposure.
+   - Only essential details (name and email) are retrieved to maintain privacy.
+
 ---
 
 ## Security Design
