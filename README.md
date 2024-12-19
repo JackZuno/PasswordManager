@@ -103,6 +103,9 @@ To log in, select **Option [1]**: Log in with Google. You’ll be given a URL to
 <p align="center">
     <img src="/password-manager/images/user_auth.png" alt="Placeholder for Google login step image" width="100%">
 </p>
+<p align="center">
+    <img src="/password-manager/images/auth_successful.png" alt="Placeholder for Google login successful image" width="80%">
+</p>
 
 ---
 
